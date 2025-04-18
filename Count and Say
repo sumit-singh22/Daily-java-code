@@ -1,0 +1,26 @@
+class Solution {
+    public String countAndSay(int n) {
+        // Base case
+        if (n == 1) return "1";
+        // Get the previous term recursively
+        String prev = countAndSay(n - 1);
+        StringBuilder curr = new StringBuilder();
+        int count = 1;
+        // Loop through the string starting from the 2nd character
+        for (int i = 1; i < prev.length(); i++) {
+            // If current char is same as previous, increment count
+            if (prev.charAt(i) == prev.charAt(i - 1)) {
+                count++;
+            } else {
+                // Append the count and the character to current result
+                curr.append(count);
+                curr.append(prev.charAt(i - 1));
+                count = 1; // Reset count
+            }
+        }
+        // Don't forget to append the last group after the loop
+        curr.append(count);
+        curr.append(prev.charAt(prev.length() - 1));
+        return curr.toString();
+    }
+}
