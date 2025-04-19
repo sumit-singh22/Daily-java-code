@@ -1,0 +1,23 @@
+import java.util.Arrays;
+
+class Solution {
+    public long countFairPairs(int[] nums, int lower, int upper) {
+        Arrays.sort(nums);
+        return countPairsLessEqual(nums, upper) - countPairsLessEqual(nums, lower - 1);
+    }
+    private long countPairsLessEqual(int[] nums, int target) {
+        int n = nums.length;
+        int left = 0, right = n - 1;
+        long count = 0;
+        
+        while (left < right) {
+            if (nums[left] + nums[right] <= target) {
+                count += (right - left); 
+                left++;
+            } else {
+                right--;
+            }
+        }
+        return count;
+    }
+}
