@@ -1,0 +1,28 @@
+public class Solution {
+    public long countSubarrays(int[] nums, int k) {
+        int n = nums.length;
+        int maxNum = Arrays.stream(nums).max().getAsInt();
+
+        long count = 0;
+        int left = 0;
+        int maxFreq = 0;
+
+        for (int right = 0; right < n; right++) {
+            if (nums[right] == maxNum) {
+                maxFreq++;
+            }
+
+            while (maxFreq >= k) {
+                // All subarrays starting from 'left' to 'right' are valid
+                count += n - right;
+
+                if (nums[left] == maxNum) {
+                    maxFreq--;
+                }
+                left++;
+            }
+        }
+
+        return count;
+    }
+}
