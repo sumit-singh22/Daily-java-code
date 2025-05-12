@@ -1,0 +1,27 @@
+class Solution {
+    public int[] findEvenNumbers(int[] digits) {
+        Set<Integer> result = new TreeSet<>();
+        for (int i = 0; i < digits.length; i++) {
+            for (int j = 0; j < digits.length; j++) {
+                for (int k = 0; k < digits.length; k++) {
+                    if (i == j || j == k || i == k) continue;
+                     
+                    int d1 = digits[i];
+                    int d2 = digits[j];
+                    int d3 = digits[k];
+
+                    if (d1 == 0) continue;
+                    if (d3 % 2 != 0) continue; 
+                    int num = d1 * 100 + d2 * 10 + d3;
+                    result.add(num); 
+                }
+            }
+        }
+        int[] ans = new int[result.size()];
+        int idx = 0;
+        for (int num : result) {
+            ans[idx++] = num;
+        }
+        return ans;
+    }
+}
