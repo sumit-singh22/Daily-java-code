@@ -1,0 +1,49 @@
+class Solution {
+    public List<String> getWordsInLongestSubsequence(String[] words, int[] groups) {
+        int n = words.length;
+        int[] longestSubsequenceLength = new int[n];
+        int[] previousIndex = new int[n];
+        Arrays.fill(longestSubsequenceLength, 1);
+        Arrays.fill(previousIndex, -1);
+        int maxLength = 1;
+
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < i; ++j) {
+                if (groups[i] != groups[j] &&
+                    longestSubsequenceLength[i] < longestSubsequenceLength[j] + 1 &&
+                    canTransform(words[i], words[j])) {
+
+                    longestSubsequenceLength[i] = longestSubsequenceLength[j] + 1;
+                    previousIndex[i] = j;
+                    maxLength = Math.max(maxLength, longestSubsequenceLength[i]);
+                }
+            }
+        }
+
+        List<String> result = new ArrayList<>();
+        for (int i = 0; i < n; ++i) {
+            if (longestSubsequenceLength[i] == maxLength) {
+                for (int j = i; j >= 0; j = previousIndex[j]) {
+                    result.add(words[j]);
+                    if (previousIndex[j] == -1) break;
+                }
+                break;
+            }
+        }
+
+        Collections.reverse(result);
+        return result;
+    }
+
+    private boolean canTransform(String firstWord, String secondWord) {
+        if (firstWord.length() != secondWord.length()) return false;
+        int diffCount = 0;
+        for (int i = 0; i < firstWord.length(); ++i) {
+            if (firstWord.charAt(i) != secondWord.charAt(i)) {
+                diffCount++;
+                if (diffCount > 1) return false;
+            }
+        }
+        return diffCount == 1;
+    }
+}
