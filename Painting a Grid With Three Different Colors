@@ -1,0 +1,52 @@
+class Solution {
+    static final int MOD = 1_000_000_007;
+    List<int[]> patterns = new ArrayList<>();
+    Map<Integer, List<Integer>> compatible = new HashMap<>();
+
+    public int colorTheGrid(int m, int n) {
+        generatePatterns(m, 0, new int[m]);
+        int size = patterns.size();
+        for (int i = 0; i < size; i++) {
+            compatible.put(i, new ArrayList<>());
+            for (int j = 0; j < size; j++) {
+                if (isCompatible(patterns.get(i), patterns.get(j))) {
+                    compatible.get(i).add(j);
+                }
+            }
+        }
+        long[] dp = new long[size];
+        Arrays.fill(dp, 1); 
+        for (int col = 1; col < n; col++) {
+            long[] newDp = new long[size];
+            for (int i = 0; i < size; i++) {
+                for (int j : compatible.get(i)) {
+                    newDp[i] = (newDp[i] + dp[j]) % MOD;
+                }
+            }
+            dp = newDp;
+        }
+        long result = 0;
+        for (long val : dp) {
+            result = (result + val) % MOD;
+        }
+        return (int) result;
+    }
+    private void generatePatterns(int m, int idx, int[] curr) {
+        if (idx == m) {
+            patterns.add(Arrays.copyOf(curr, m));
+            return;
+        }
+        for (int color = 0; color < 3; color++) {
+            if (idx == 0 || curr[idx - 1] != color) {
+                curr[idx] = color;
+                generatePatterns(m, idx + 1, curr);
+            }
+        }
+    }
+    private boolean isCompatible(int[] a, int[] b) {
+        for (int i = 0; i < a.length; i++) {
+            if (a[i] == b[i]) return false;
+        }
+        return true;
+    }
+}
