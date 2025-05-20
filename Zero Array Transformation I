@@ -1,0 +1,24 @@
+class Solution {
+    public boolean isZeroArray(int[] nums, int[][] queries) {
+        int n = nums.length;
+        int[] diff = new int[n + 1];  
+        for (int[] q : queries) {
+            int l = q[0];
+            int r = q[1];
+            diff[l]++;      
+            diff[r + 1]--;   
+        }
+        int[] coverage = new int[n];
+        coverage[0] = diff[0];
+        for (int i = 1; i < n; i++) {
+            coverage[i] = coverage[i - 1] + diff[i];
+        }
+        for (int i = 0; i < n; i++) {
+            if (coverage[i] < nums[i]) {
+                return false;  
+            }
+        }
+
+        return true;  
+    }
+}
