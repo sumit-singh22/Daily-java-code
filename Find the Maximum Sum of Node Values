@@ -1,0 +1,23 @@
+class Solution {
+    public long maximumValueSum(int[] nums, int k, int[][] edges) {
+        long baseSum = 0;
+        int minGain = Integer.MAX_VALUE;
+        int countPositiveGain = 0;
+        long totalGain = 0;
+        for (int num : nums) {
+            int gain = (num ^ k) - num;
+            baseSum += num;
+            if (gain > 0) {
+                totalGain += gain;
+                countPositiveGain++;
+                minGain = Math.min(minGain, gain);
+            } else {
+                minGain = Math.min(minGain, -gain);
+            }
+        }
+        if (countPositiveGain % 2 == 1) {
+            totalGain -= minGain;
+        }
+          return baseSum + totalGain;
+    }
+}
