@@ -1,0 +1,16 @@
+class Solution {
+    public int MinimumCoins(int[] coins, int amount) {
+        Arrays.sort(coins);
+        int i = coins.length - 1;
+        int count = 0;
+        while (amount > 0 && i >= 0) {
+            if (coins[i] <= amount) {
+                int use = amount / coins[i]; 
+                count += use;
+                amount -= coins[i] * use;
+            }
+            i--; 
+        }
+        return amount == 0 ? count : -1;
+    }
+}
