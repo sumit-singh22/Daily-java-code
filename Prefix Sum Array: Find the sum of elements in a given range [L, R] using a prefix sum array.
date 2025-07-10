@@ -1,0 +1,25 @@
+public class PrefixSumRangeQuery {
+    public static int rangeSum(int[] arr, int L, int R) {
+        int n = arr.length;
+        int[] prefixSum = new int[n];
+
+        // Step 1: Compute prefix sum array
+        prefixSum[0] = arr[0];
+        for (int i = 1; i < n; i++) {
+            prefixSum[i] = prefixSum[i - 1] + arr[i];
+        }
+        if (L == 0) {
+            return prefixSum[R];
+        } else {
+            return prefixSum[R] - prefixSum[L - 1];
+        }
+    }
+    public static void main(String[] args) {
+        int[] arr = {3, 4, 2, 1, 6, 5};
+        int L = 2;
+        int R = 4;
+
+        int result = rangeSum(arr, L, R);
+        System.out.println("Sum from index " + L + " to " + R + " is: " + result);
+    }
+}
